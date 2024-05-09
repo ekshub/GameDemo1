@@ -89,14 +89,70 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Card.cpp" />
+    <ClCompile Include="GameMap.cpp" />
+    <ClCompile Include="IconBox.cpp" />
+    <ClCompile Include="IconCards.cpp" />
+    <ClCompile Include="Monster1.cpp" />
+    <ClCompile Include="Monster2.cpp" />
+    <ClCompile Include="MapItem.cpp" />
+    <ClCompile Include="MyLabel.cpp" />
+    <ClCompile Include="MyMime.cpp" />
+    <ClCompile Include="MyScene.cpp" />
+    <ClCompile Include="MySide.cpp" />
+    <ClCompile Include="MyView.cpp" />
+    <ClCompile Include="RoleAni.cpp" />
+    <ClCompile Include="SignIn.cpp" />
+    <ClCompile Include="Tower1.cpp" />
+    <ClCompile Include="Tower2.cpp" />
+    <ClCompile Include="Tower3.cpp" />
+    <ClCompile Include="Tower4.cpp" />
+    <ClCompile Include="Tower5.cpp" />
+    <ClCompile Include="Tower6.cpp" />
+    <ClCompile Include="Tower7.cpp" />
+    <ClCompile Include="Tower8.cpp" />
+    <ClCompile Include="Tower9.cpp" />
     <QtRcc Include="GameDemo1.qrc" />
     <QtMoc Include="GameDemo1.h" />
+    <ClCompile Include="EnemySide.cpp" />
+    <ClCompile Include="GameControl.cpp" />
+    <ClCompile Include="GameDefine.cpp" />
     <ClCompile Include="GameDemo1.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameObjectPool.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Card.h" />
+    <ClInclude Include="EnemySide.h" />
+    <ClInclude Include="GameControl.h" />
+    <ClInclude Include="GameDefine.h" />
+    <ClInclude Include="IconBox.h" />
+    <ClInclude Include="IconCards.h" />
+    <ClInclude Include="MapItem.h" />
+    <ClInclude Include="MyLabel.h" />
+    <ClInclude Include="MyMime.h" />
+    <ClInclude Include="MyScene.h" />
+    <ClInclude Include="MyView.h" />
+    <ClInclude Include="RoleAni.h" />
+    <ClInclude Include="Tower1.h" />
+    <ClInclude Include="Tower2.h" />
+    <ClInclude Include="Tower3.h" />
+    <ClInclude Include="Tower4.h" />
+    <ClInclude Include="Tower5.h" />
+    <ClInclude Include="Tower6.h" />
+    <ClInclude Include="Tower7.h" />
+    <ClInclude Include="Tower8.h" />
+    <ClInclude Include="Tower9.h" />
+    <QtMoc Include="GameMap.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameObjectPool.h" />
+    <ClInclude Include="Monster1.h" />
+    <ClInclude Include="Monster2.h" />
+    <ClInclude Include="MySide.h" />
+    <ClInclude Include="SignIn.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
