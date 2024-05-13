@@ -2,6 +2,7 @@
 #include"GameControl.h"
 MapItem:: MapItem() {
 	setAcceptDrops(true);
+	onfree = true;
 }
 
 void MapItem::dragEnterEvent(QGraphicsSceneDragDropEvent* event)
@@ -34,10 +35,10 @@ void MapItem::dropEvent(QGraphicsSceneDragDropEvent* event)
 		_ob = GameObject::OT_Tower8;
 	else if (_objectType == "Tower9")
 		_ob = GameObject::OT_Tower9;
-	if (_ob != -1 && GameControl::Instance()->mMap->mpArrB[(int(this->pos().y()) - 10) / 100][(int(this->pos().x()) - 10) / 100])
+	if (_ob != -1 && onfree)
 	{
-		GameControl::Instance()->CreatTower(QPoint(this->pos().x(), this->pos().y()), _ob);
-		GameControl::Instance()->mMap->mpArrB[(int(this->pos().y()) - 10) / 100][(int(this->pos().x()) - 10) / 100] = false;
+		GameControl::Instance()->CreatTower(QPoint(this->pos().x()+50, this->pos().y()+100), _ob,this);
+		onfree= false;
 		GameControl::Instance()->AllCardList.removeOne(_ob);
 		GameControl::Instance()->CardRecover(((Card*)((MyMime*)(event->mimeData()))->ptr));
 	}

@@ -22,10 +22,10 @@
     <QtRcc Include="GameDemo1.qrc">
       <Filter>Source Files\Resource Files</Filter>
     </QtRcc>
-    <QtMoc Include="GameDemo1.h">
+    <QtMoc Include="Synodic_Month.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClCompile Include="GameDemo1.cpp">
+    <ClCompile Include="Synodic_Month.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -120,6 +120,15 @@
     <ClCompile Include="MyLabel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Boss1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Displayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -204,6 +213,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MyLabel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Displayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

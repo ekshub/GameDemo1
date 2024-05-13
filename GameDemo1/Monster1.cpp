@@ -1,23 +1,28 @@
 #include "Monster1.h"
-Monster1::Monster1(QObject* parent)
+#include"GameControl.h"
+Monster1::Monster1(QObject* parent):EnemySide(parent)
 {
-	this->mObjectType = GameObject::OT_Monster1;
-	this->img = QPixmap(GameDefine::MonsterUrl1);
-	this->MaxBlood = 10000;
-	this->setPixmap(img);
-	
+	mObjectType = GameObject::OT_Monster1;
+    MaxHP = GameDefine::MonHP1;
+	MyMov = new RoleAni(GameDefine::MonMov1);
+	AttMov = new QMovie(GameDefine::MonAtt1);
+    QObject::connect(AttMov, &QMovie::finished, [=]() {
+        for (auto tow : GameControl::Instance()->MySideList)
+        {
+            if (MyMov->Pos.x() + MyMov->size().width() / 2 - tow->MyMov->Pos.x() < 100 && MyMov->Pos.x() + MyMov->size().width() / 2 - tow->MyMov->Pos.x() > -20 && -MyMov->Pos.y()  + tow->MyMov->Pos.y() < 100 && -MyMov->Pos.y() + tow->MyMov->Pos.y() > -20)
+            {
+                tow->HP -= 200;
+            }
+
+        }
+        AttMov->stop();
+        MyMov->Play();
+        isAtting = false;
+        });
 }
-void Monster1::init(QPoint _Pos)
+
+void Monster1::MyAdjust()
 {
-	_dir = QPoint(1, 0) * MoveSpeed;
-	this->Pos = _Pos;
-	setPos(_Pos);
-	this->MyMov->setPos(Pos);
-	this->BloodVolume = 10000;
-	BloodBar = new QProgressBar;
-	BloodBar->setValue(100);
+	moveBy(-100, 26);
 	
-	this->BloodBar->setFixedSize(50, 10);
-	this->BloodBar->setStyleSheet("QProgressBar{border:0px}");
-	MyMov->Mov->start();
 }

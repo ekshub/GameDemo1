@@ -1,7 +1,7 @@
 #pragma once
 #include<QGraphicsPixmapItem>
 #include <QGraphicsSceneDragDropEvent>
-
+#pragma warning(disable : 4828)
 class Card :public QGraphicsPixmapItem
 {
 	

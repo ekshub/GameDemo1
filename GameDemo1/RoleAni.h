@@ -1,8 +1,15 @@
 #pragma once
 #include"GameDefine.h"
+#pragma warning(disable : 4828)
+class GameObject;
 class RoleAni:public QGraphicsProxyWidget
 {
 public:
+	enum AlignWay
+	{
+		CenterAlign,
+		ButtomAlign
+	};
 	RoleAni(QString mov, GameObject* par=nullptr);
 	QMovie* Mov;
 	QLabel* Lab;
@@ -10,8 +17,10 @@ public:
 	GameObject* parent;
 	~RoleAni();
 	void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
-	void ChangeMov(QMovie* _Mov);
+	void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
+	void ChangeMov(QMovie* _Mov, int AlignWay= ButtomAlign);
 	void Play();
 	void stop();
+	void initDrag();
 };
 

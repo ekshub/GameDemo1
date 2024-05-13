@@ -16,12 +16,13 @@ public:
         }
         Card* card = cardList.first();
         card->setPos(cPos);
-        cardList.removeFirst();
+        cardList.pop_front();
         return card;
     }
-    void init(QPoint _Pos) override;
+    void init(QPoint _Pos, MapItem* _Map) override;
     void BulletMove() override;
-    void MyAce(MyScene* TargetScene);
+    void MyAce(MyScene* TargetScene=nullptr);
+    void Reset();
     Tower7();
     ~Tower7();
 };

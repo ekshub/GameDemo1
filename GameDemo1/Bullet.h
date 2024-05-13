@@ -1,6 +1,6 @@
 #pragma once
 #include"GameDefine.h"
-
+#pragma warning(disable : 4828)
 class Bullet:public QGraphicsProxyWidget
 {
 public:
@@ -13,5 +13,7 @@ public:
 	~Bullet();
 	int count;
 	int count2;
+	GameObject* target;
+	void Recover();
 };
 

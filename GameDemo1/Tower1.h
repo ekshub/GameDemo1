@@ -22,14 +22,12 @@ public:
         cardList.removeFirst();
         return card;
     }
-    void Trace(Bullet* Bul);
-    int count;
     int ace;
-    void init(QPoint _Pos) override;
+    void init(QPoint _Pos, MapItem* _Map) override;
     void BulletMove() override;
-    void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
+    void Reset()override;
     Tower1();
     ~Tower1();
-    void MyAce(MyScene* TargetScene,QTimer* MonGenTimer);
+    void MyAce(MyScene* TargetScene=nullptr)override;
 };
 

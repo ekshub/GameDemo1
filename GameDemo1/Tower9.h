@@ -19,9 +19,12 @@ public:
         cardList.removeFirst();
         return card;
     }
-    void init(QPoint _Pos) override;
+    int ace = 0;
+    QTimer* AceBulletTimer;
+    void init(QPoint _Pos, MapItem* _Map) override;
     void BulletMove() override;
-    void MyAce(MyScene* TargetScene);
+    void MyAce(MyScene* TargetScene=nullptr);
+    void Reset()override;
     Tower9();
     ~Tower9();
 };

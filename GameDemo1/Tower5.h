@@ -19,9 +19,18 @@ public:
         cardList.removeFirst();
         return card;
     }
-    void init(QPoint _Pos) override;
+    void init(QPoint _Pos, MapItem* _Map) override;
     void BulletMove() override;
-    void MyAce(MyScene* TargetScene);
+    void MyAce(MyScene* TargetScene=nullptr) override;
+    void death() override;
+    void Recover() override;
+    QMovie* DeathMov2;
+    QMovie* MoveSt;
+    QMovie* MoveEn;
+    QMovie* MoveD;
+    QTimer* MoveTimer;
+    QMovie* AttMov2;
+    int state; 
     Tower5();
     ~Tower5();
 };

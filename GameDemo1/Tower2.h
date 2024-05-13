@@ -21,12 +21,12 @@ public:
         return card;
     }
     int count;
-    QMovie* AceMov;
-    void init(QPoint _Pos) override;
+    void init(QPoint _Pos, MapItem* _Map) override;
     void BulletMove() override;
-    void MyAce(MyScene* TargetScene);
+    void MyAce(MyScene* TargetScene=nullptr) override;
+    void Upgrade() override;
     Tower2();
     ~Tower2();
-    
+    void Reset()override;
 };
 

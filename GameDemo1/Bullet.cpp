@@ -9,6 +9,7 @@ Bullet::Bullet(QString mov, GameObject* par) :Temp{ QPoint(0, 0) },parent(par)
 	this->setWidget(Lab);
 	count = -1;
 	count2 = 0;
+	target = nullptr;
 }
 
 Bullet::~Bullet()
@@ -20,3 +21,13 @@ Bullet::~Bullet()
 
 	
 }
+
+void Bullet::Recover()
+{
+	Mov->stop();
+	count = -1;
+	count2 = 0;
+	target = nullptr;
+}
+
+

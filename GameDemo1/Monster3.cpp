@@ -1,11 +1,11 @@
-#include "Monster2.h"
+#include "Monster3.h"
 #include"GameControl.h"
-Monster2::Monster2(QObject* parent):EnemySide(parent)
+Monster3::Monster3(QObject* parent):EnemySide(parent)
 {
-	this->mObjectType = GameObject::OT_Monster1;
-	MaxHP = GameDefine::MonHP2;
-	MyMov = new RoleAni(GameDefine::MonMov2);
-	AttMov = new QMovie(GameDefine::MonAtt2);
+	mObjectType = GameObject::OT_Monster1;
+    MaxHP = GameDefine::MonHP3;
+	MyMov = new RoleAni(GameDefine::MonMov3);
+	AttMov = new QMovie(GameDefine::MonAtt3);
     QObject::connect(AttMov, &QMovie::finished, [=]() {
         for (auto tow : GameControl::Instance()->MySideList)
         {
@@ -21,8 +21,7 @@ Monster2::Monster2(QObject* parent):EnemySide(parent)
         });
 }
 
-void Monster2::MyAdjust()
+void Monster3::MyAdjust()
 {
-	moveBy(-34, 36);
-
+	
 }

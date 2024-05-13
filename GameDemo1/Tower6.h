@@ -19,11 +19,11 @@ public:
         cardList.removeFirst();
         return card;
     }
-    void init(QPoint _Pos) override;
+    void init(QPoint _Pos, MapItem* _Map) override;
     void BulletMove() override;
     void Recover() override;
-    
-    void MyAce(MyScene* TargetScene);
+    void Reset()override;
+    void MyAce(MyScene* TargetScene=nullptr)override;
     Tower6();
     ~Tower6();
 };

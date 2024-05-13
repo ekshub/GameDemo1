@@ -19,12 +19,13 @@ public:
         cardList.removeFirst();
         return card;
     }
-    void init(QPoint _Pos) override;
+    void init(QPoint _Pos, MapItem* _Map) override;
     void BulletMove() override;
     bool state;
     QMovie* AttMov2;
     int Harm2;
-    void MyAce(MyScene* TargetScene);
+    void MyAce(MyScene* TargetScene=nullptr);
+    void Reset() override;
     Tower8();
     ~Tower8();
 };

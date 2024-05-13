@@ -35,53 +35,81 @@ bool GameMap::InitByFile(QString filename)//根据文件初始化地图数组
         return false;
     }
 
-    QByteArray arrAll = file.readAll();//分割文件内容并存入地图数组
-    arrAll.replace("\r\n", "\n");
-    QList<QByteArray> lineList = arrAll.split('\n');
-    mRow = lineList.size();
-    mpArr = new int* [mRow];
-    mpArrB = new bool* [mRow];
-    for (int i = 0; i < mRow; i++)
+    //QByteArray arrAll = file.readAll();//分割文件内容并存入地图数组
+   // arrAll.replace("\r\n", "\n");
+   // QList<QByteArray> lineList = arrAll.split('\n');
+    //mRow = lineList.size();
+    mpArr = new int* [5];
+    
+    for (int i = 0; i < 5; i++)
     {
-        QList<QByteArray>colList = lineList[i].split(',');
-        mCol = colList.size();
-        mpArr[i] = new int[mCol];
-        mpArrB[i] = new bool [mCol];
-        for (int j = 0; j < mCol; j++)
+        ///QList<QByteArray>colList = lineList[i].split(',');
+        //mCol = colList.size();
+        mpArr[i] = new int[15];
+        
+        for (int j = 0; j < 15; j++)
         {
-            mpArr[i][j] = colList[j].toInt();
-            mpArrB[i][j] = true;
+            if(i%2==0)
+            mpArr[i][j] = 1;
+            else
+                mpArr[i][j] = 0;
+            
         }
     }
- 
-    mGameMap = new MapItem * [mRow];
+
+    
+    mGameMap = new MapItem * [5];
 
     return true;
 }
 
 
-void GameMap::DrawMap(QGraphicsScene* Mapscene)
+void GameMap::DrawMap()
 {
 
-    for (int i = 0; i < mRow; i++)
+    for (int i = 0; i < 5; i++)
     {
-        mGameMap[i] = new MapItem[mCol];
+        mGameMap[i] = new MapItem[15];
 
-        for (int j = 0; j < mCol; j++)
+        for (int j = 0; j < 11; j++)
         {
             QString Imgurl;
             switch (mpArr[i][j])
             {
-            case Road:Imgurl = "D:\\Qt_code\\qtmainproject\\img\\back100x100.png";break;
-            case Wall:Imgurl = "D:\\Qt_code\\qtmainproject\\img\\Map2_100x100.png"; break;
+            case Road:Imgurl = "D:\\tower\\MapItem.png";break;
+            case Wall:Imgurl = "D:\\tower\\MapItem2.png"; break;
             }
 
             QPixmap img2(Imgurl);
             mGameMap[i][j].setPixmap(img2);
-            mGameMap[i][j].setPos(10+j * (img2.width()), 10+i * img2.height());
-
-            (*Mapscene).addItem(&mGameMap[i][j]);
+            mGameMap[i][j].setPos(j * (img2.width()), 150+i * img2.height());
             
+        }
+    }
+}
+
+void GameMap::hideMap(QGraphicsScene* Mapscene)
+{
+    for (int i = 0; i < 5; i++)
+    {
+       
+
+        for (int j = 0; j < 11; j++)
+        {
+            (*Mapscene).removeItem(&mGameMap[i][j]);
+        }
+    }
+}
+
+void GameMap::showMap(QGraphicsScene* Mapscene)
+{
+    for (int i = 0; i < 5; i++)
+    {
+
+
+        for (int j = 0; j < 11; j++)
+        {
+            (*Mapscene).addItem(&mGameMap[i][j]);
         }
     }
 }

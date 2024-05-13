@@ -1,74 +1,82 @@
 #include "EnemySide.h"
+#include"GameControl.h"
 
 EnemySide::EnemySide(QObject* parent)
 {
+    MyMov = nullptr;
     MoveSpeed = 1;
-    BloodBar = nullptr;
-    MyMov = new RoleAni("D:\\Qt_code\\spritesheets\\spritesheets\\Monster-1.gif", this);
+    HPBar = nullptr;
+    AttMov = nullptr;
     Actived=true;
-    
+    isAlive = false;
 }
+void EnemySide::init(QPoint _Pos)
+{
 
+    Pos = _Pos;
+    setPos(_Pos);
+    MyMov->setPos(Pos);
+    MyMov->Pos = (Pos);
+    HP = MaxHP;
+    HPBar = new QProgressBar;
+    HPBar->setValue(100);
+    HPBar->setFixedSize(50, 10);
+    HPBar->setStyleSheet("QProgressBar{border:0px}");
+    MyMov->Play();
+}
 EnemySide::~EnemySide()
 {
-    if(BloodBar!=nullptr)
-    delete BloodBar;
+    if(HPBar!=nullptr)
+    delete HPBar;
     delete MyMov;
 }
 
 void EnemySide::Move()
 {
+    if (Actived == false|| isAtting==true)
+    {
+
+        Actived = true;
+        return;
+    }
+    for (auto tow : GameControl::Instance()->MySideList)
+    {
+        if (MyMov->Pos.x()  - tow->MyMov->Pos.x() < 100 && MyMov->Pos.x() - tow->MyMov->Pos.x() > -20 && -MyMov->Pos.y()  + tow->MyMov->Pos.y() < 100 && -MyMov->Pos.y()  + tow->MyMov->Pos.y() > -20)
+        {
+            Actived = false;
+            isAtting = true;
+            MyMov->ChangeMov(AttMov);
+            MyAdjust();
+
+            break;
+        }
+    }
+    if (Actived)
+    {
+        Pos += QPoint(-1, 0) * MoveSpeed;
+        MyMov->moveBy(-MoveSpeed, 0);
+        MyMov->Pos -= QPoint(MoveSpeed, 0);
+        HPBar->move(MyMov->Pos + QPoint(-50, -120));
+    }
+
     
-  /*  if (_dir == QPoint(1, 0) * MoveSpeed)
-    {
-        
-        Pos += _dir;
-        MyMov->moveBy(_dir.x() , _dir.y());
-        if ((Pos + _dir).x() > 800 - img.width())
-            _dir = QPoint(0, 1) * MoveSpeed;
-
-    }
-    else if (_dir == QPoint(0, 1) * MoveSpeed)
-    {
-
-        Pos += _dir;
-        MyMov->moveBy(_dir.x() , _dir.y());
-        if ((Pos + _dir).y() > 505 - img.height())
-            _dir = QPoint(-1, 0) * MoveSpeed;
-
-    }
-    else if (_dir == QPoint(-1, 0) * MoveSpeed)
-    {
-
-        Pos += _dir;
-        MyMov->moveBy(_dir.x(), _dir.y() );
-        if ((Pos + _dir).x() < 50)
-            _dir = QPoint(0, -1) * MoveSpeed;
-
-    }
-    else if (_dir == QPoint(0, -1) * MoveSpeed )
-    {
-
-        Pos += _dir;
-        MyMov->moveBy(_dir.x() , _dir.y() );
-        if ((Pos + _dir).y() < 70)
-            _dir = QPoint(1, 0) * MoveSpeed;
-
-    }*/
-    Pos += QPoint(-1,0) * MoveSpeed;
-    MyMov->moveBy(-MoveSpeed,0);
-    BloodBar->move(Pos + QPoint(0, -20));
 }
 
-bool EnemySide::IsBloodEmpty()
-{
-    if (this->BloodVolume <= 0)
-        return true;
-    return false;
-}
+
 
 void EnemySide::hurted(int Harm)
 {
-    BloodVolume -= Harm;
-    BloodBar->setValue(BloodVolume * 100 /MaxBlood);
+    HP -= Harm;
+    HPBar->setValue(HP * 100 /MaxHP);
 }
+
+void EnemySide::MyAdjust()
+{
+}
+
+void EnemySide::death()
+{
+
+}
+
+
