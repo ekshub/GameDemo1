@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/GameDemo1">
+        <file>C:/Users/19368/Pictures/mainicon.png</file>
+    </qresource>
+</RCC>
