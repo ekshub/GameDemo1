@@ -19,6 +19,24 @@ void GameObjectPool::ObjectFactory(int _objectType)
 		}
 		break;
 	}
+	case GameObject::OT_Monster2:
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			Monster2* Mon = new Monster2(this);
+			MonPool2.append(Mon);
+		}
+		break;
+	}
+	case GameObject::OT_Monster3:
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			Monster3* Mon = new Monster3(this);
+			MonPool3.append(Mon);
+		}
+		break;
+	}
 	case GameObject::OT_Tower1:
 	{
 		for (int i = 0; i < 2; i++)
@@ -108,7 +126,7 @@ void GameObjectPool::ObjectFactory(int _objectType)
 void GameObjectPool::Init()
 {
 	//预先生产对象
-	for(int i=0 ; i<12 ; i++)
+	for(int i=0 ; i<13 ; i++)
 		ObjectFactory(i);
 }
 
@@ -122,6 +140,22 @@ GameObject* GameObjectPool::GetGameObject(int _objectType)
 			ObjectFactory(_objectType);
 		Monster1* Mon = MonPool.first();
 		MonPool.pop_front();
+		return Mon;
+	}
+	case GameObject::OT_Monster2:
+	{
+		if (MonPool.isEmpty())
+			ObjectFactory(_objectType);
+		Monster2* Mon = MonPool2.first();
+		MonPool2.pop_front();
+		return Mon;
+	}
+	case GameObject::OT_Monster3:
+	{
+		if (MonPool.isEmpty())
+			ObjectFactory(_objectType);
+		Monster3* Mon = MonPool3.first();
+		MonPool3.pop_front();
 		return Mon;
 	}
 	case GameObject::OT_Tower1:
@@ -209,6 +243,16 @@ void GameObjectPool::RecoveryGameObject(GameObject* _object)
 		MonPool.append((Monster1*)_object);
 		break;
 	}
+	case GameObject::OT_Monster2:
+	{
+		MonPool2.append((Monster2*)_object);
+		break;
+	}
+	case GameObject::OT_Monster3:
+	{
+		MonPool3.append((Monster3*)_object);
+		break;
+	}
 	case GameObject::OT_Tower1:
 	{
 		TowerPool1.append((Tower1*)_object);
@@ -264,6 +308,16 @@ void GameObjectPool::Clear()
 	{
 		delete i;
 		MonPool.removeOne(i);
+	}
+	for (auto i : MonPool2)
+	{
+		delete i;
+		MonPool2.removeOne(i);
+	}
+	for (auto i : MonPool3)
+	{
+		delete i;
+		MonPool3.removeOne(i);
 	}
 	for (auto i : TowerPool1)
 	{

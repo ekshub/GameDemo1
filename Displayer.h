@@ -1,5 +1,6 @@
 #pragma once
 #include"GameDefine.h"
+#pragma warning(disable : 4828)
 class Displayer :
     public QGraphicsProxyWidget
 {

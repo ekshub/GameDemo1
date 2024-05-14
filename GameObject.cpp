@@ -2,11 +2,13 @@
 
 GameObject::GameObject(QObject* parent) 
 {
-
+	AttackTimer = new QTimer;
 }
 
 GameObject::~GameObject()
 {
+	delete AttackTimer;
+	delete AttMov;
 }
 
 int GameObject::GetType()

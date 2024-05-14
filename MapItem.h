@@ -1,6 +1,7 @@
 #pragma once
 #include<QGraphicsPixmapItem>
 #include <QGraphicsSceneDragDropEvent>
+#pragma warning(disable : 4828)
 class MapItem:public QGraphicsPixmapItem
 {
 public:

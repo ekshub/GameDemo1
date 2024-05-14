@@ -4,7 +4,6 @@
 
 MySide::MySide(QString _BulUrl,int _Harm):BulletUrl(_BulUrl),Harm(_Harm)
 {
-	AttackTimer = new QTimer;
 	AceStartTimer = new QTimer;
 	AceEndTimer = new QTimer;
 	AceAttTimer = new QTimer;
@@ -28,8 +27,6 @@ void MySide::init(QPoint _Pos,MapItem* _Map)
 	setPos(_Pos);
 	MyMov->setPos(_Pos);
 	MyMov->Pos =_Pos;
-	MaxHP = 10000;
-	MaxMP = 1000;
 	isalive = true;
 	MyMov->Play();
 	MP = 0;
@@ -84,6 +81,7 @@ void MySide::BulletRecover()
 
 void MySide::Reset()
 {
+	BulletRecover();
 	AttState = true;
 	MyMov->stop();
 	HP = MaxHP;
@@ -117,18 +115,25 @@ MySide::~MySide()
 	delete AceStartTimer;
 	delete AceEndTimer;
 	delete AceAttTimer;
-	delete AttackTimer;
 	for (auto i : BulletList)
 	{
-		delete i;
 		BulletList.removeOne(i);
+		delete i;
 
+	}
+	for (auto i :TracingBulletList)
+	{
+		AceBulletList.removeOne(i);
+		delete i;
 	}
 	for (auto i : AceBulletList)
 	{
-		delete i;
 		AceBulletList.removeOne(i);
+		delete i;
 	}
+	delete MyMov;
+	delete AceMov;
+	delete DeathMov;
 }
 
 void MySide::Recover()

@@ -2,23 +2,23 @@
 #include"GameControl.h"
 
 QList<Card*> Tower2::cardList;
-Tower2::Tower2() :MySide("",200)
+Tower2::Tower2() :MySide(GameDefine::TowBul2, GameDefine::TowHarm2)
 {
+	MaxHP = GameDefine::TowHP2;
+	MaxMP = GameDefine::TowMP2;
 	count = 0;
 	mObjectType = GameObject::OT_Tower2;
-	MyMov = new RoleAni("D:\\tower\\to2.gif", this);
-	AttMov = new QMovie("D:\\tower\\to2at.gif");
-	AceMov = new QMovie("D:\\tower\\to2ace.gif");
+	MyMov = new RoleAni(GameDefine::TowMov2, this);
+	AttMov = new QMovie(GameDefine::TowAttMov2);
+	AceMov = new QMovie(GameDefine::TowAceMov2);
 	this->setPixmap(GameDefine::TowerUrl1_1);
-	Harm = 1000;
-	InitHarm = 200;
+	Harm = GameDefine::TowHarm2;
 	for (int i = 0; i < 5; i++)
 	{
 		Bullet* Bul = new Bullet("D:\\Monster\\wolf2.gif", this);
 		Bul->Harm = this->Harm;
 		AceBulletList.append(Bul);
 	}
-	BulletSendTimer = new QTimer;
 	QObject::connect(AttMov, &QMovie::finished, [=]() {
 		if (AttState)
 			return;

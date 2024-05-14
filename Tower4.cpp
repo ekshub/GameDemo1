@@ -7,16 +7,17 @@ void Tower4::Recover()
 	BulletSendTimer->stop();
 	AttMov->stop();
 }
-Tower4::Tower4() :MySide("D:\\tower\\to4att.gif", 200)
+Tower4::Tower4() :MySide(GameDefine::TowBul4, GameDefine::TowHarm4)
 {
+	MaxHP = GameDefine::TowHP4;
+	MaxMP = GameDefine::TowMP4;
 	mObjectType = GameObject::OT_Tower4;
-	MyMov = new RoleAni("D:\\tower\\too4.gif", this);
-	AttMov = new QMovie("D:\\tower\\to4at.gif");
-	AceMov = new QMovie("D:\\tower\\to4ac.gif");
+	MyMov = new RoleAni(GameDefine::TowMov4, this);
+	AttMov = new QMovie(GameDefine::TowAttMov4);
+	AceMov = new QMovie(GameDefine::TowAceMov4);
 	this->setPixmap(GameDefine::TowerUrl4_1);
-	Harm = 1000;
-	InitHarm = 200;
-	BulletSendTimer = new QTimer;
+	Harm = GameDefine::TowHarm4;
+
 
 	QObject::connect(AttMov, &QMovie::finished, [=]() {
 		if (AttState)

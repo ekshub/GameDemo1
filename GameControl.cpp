@@ -19,7 +19,7 @@ void GameControl::GameInit()
     MonsterGenTimer2 = new QTimer(this);
     MonsterMoveTimer1 = new QTimer(this);
     MainTimer = new QTimer(this);
-    mGameView.setParent(GameDemo1::MainWindow);
+    mGameView.setParent(Synodic_Month::MainWindow);
     mGameView.setFixedSize(GameDefine::WindowWidth, GameDefine::WindowHeight);
     LoadStartScene();
 
@@ -72,8 +72,9 @@ void GameControl::LoadGameScene()
     mbackground2.setPixmap(QPixmap(GameDefine::GameGroundUrl));
     GameScene.addItem(&mbackground2);
     connect(MonsterGenTimer1, &QTimer::timeout, [this]() {
-        Monster1* mon = (Monster1*)GameObjectPool::Instance()->GetGameObject(GameObject::OT_Monster1);
-        mon->init(QPoint(1300, rand()%5*100+150));
+        EnemySide* mon = (EnemySide*)GameObjectPool::Instance()->GetGameObject(rand()%3+GameObject::OT_Monster1);
+        
+        mon->init(QPoint(1300, rand()%5*120+250));
         mon->isAlive = true;
         MonList1.append(mon);
         GameScene.addItem(mon->MyMov);
@@ -83,25 +84,10 @@ void GameControl::LoadGameScene()
     
     connect(MonsterMoveTimer1, &QTimer::timeout, [this]() {
         Collison();
-        
         for (auto i : MonList1)
         {
-            
-            for (auto tow : MySideList)
-            {
-                if (i->MyMov->pos().x() + i->MyMov->size().width()/2-tow->MyMov->Pos.x()<100&& i->MyMov->pos().x() + i->MyMov->size().width() / 2 - tow->MyMov->Pos.x()>0&& -i->MyMov->pos().y() - i->MyMov->size().height() / 2 + tow->MyMov->Pos.y() <100&& -i->MyMov->pos().y() - i->MyMov->size().height() / 2 + tow->MyMov->Pos.y() >0)
-                {
-                    i->Actived = false;
-                    tow->HP -= 100;
-                    break;
-                }
-            }
-            if (i->Actived)
-                i->Move();
-            else
-                i->Actived = true;
+            i->Move();
         }
-        
         });
 
     connect(MainTimer, &QTimer::timeout, [this]() {
@@ -127,7 +113,7 @@ void GameControl::LoadGameScene()
 void GameControl::LoadGameMap()
 {
     mMap = new GameMap(this);
-    if (!mMap->InitByFile(GameDefine::GameMap01)) { QMessageBox::warning(GameDemo1::MainWindow, "warning", "failed to open the initmap file"); }
+    if (!mMap->InitByFile(GameDefine::GameMap01)) { QMessageBox::warning(Synodic_Month::MainWindow, "warning", "failed to open the initmap file"); }
     mMap->DrawMap();
 }
 
@@ -152,14 +138,14 @@ void GameControl::GameStart()
    
     MainTimer->start(10);
     BaseTime = QTime::currentTime();
-    MonsterMoveTimer1->start(10);
+    MonsterMoveTimer1->start(30);
     //Boss->Enter();
     Displayer::Instance()->Init(&GameScene);
-    XP = 0;
-    level = 1;
-    Coin = 777;
-    Round = 10;
-    HP = 100;
+    XP = GameDefine::XP ;
+    level = GameDefine::level;
+    Coin = GameDefine::Coin;
+    Round = GameDefine::Round;
+    HP = GameDefine::HP;
     mMap->showMap(&GameScene);
     getCards();
     RoundOver();
@@ -309,17 +295,17 @@ void GameControl::UpdateTime()
     QTime current = QTime::currentTime();//获取系统当前时间
     int t = this->BaseTime.msecsTo(current);//两者相减的时间之差
     Displayer::Instance()->showTime(t);
-    if (t >=10000 && t <= 11000&&state==true)
+    if (t >= GameDefine::roundE && t <= GameDefine::roundE +1000&&state==true)
     {
         BaseTime = QTime::currentTime();
         RoundOver();
     }
-    else if (t >= 10000 && t <= 11000 && state == false)
+    else if (t >= GameDefine::roundS && t <= GameDefine::roundS+1000 && state == false)
     {
         BaseTime = QTime::currentTime();
         RoundStart();
     }
-    if (t >= 20000 && t <= 21000 && state == true)
+    else if (t >= GameDefine::roundE && t <= GameDefine::roundE+10000 && state == true)
     {
         MonsterGenTimer1->stop();
     }
@@ -327,7 +313,10 @@ void GameControl::UpdateTime()
 
 void GameControl::RoundStart()
 {
+    if(Round==0)
     MonsterGenTimer1->start(4000);
+else 
+MonsterGenTimer1->start(2000);
     state = true;
     for (auto tow : MySideList)
         tow->StartAtt();
@@ -450,6 +439,7 @@ void GameControl::DeadRecover()
     {
         if (i->IsDead())
         {
+            i->death();
             MonsterRecover(i);
             if (rand() % 5 == 0)
                 Coin++;
@@ -466,8 +456,9 @@ void GameControl::DeadRecover()
     }
 }
 
-void GameControl::MonsterRecover(Monster1* i)
+void GameControl::MonsterRecover(EnemySide* i)
 {
+    i->death();
     i->isAlive = false;
     GameScene.removeItem(i->MyMov);
     delete i->HPBar;
@@ -826,12 +817,17 @@ void GameControl::CheckState()
     {
         GameOver();
         
-        Endpix.setPixmap( QPixmap("D:\\tower\\vectory.png"));
-        Endpix.moveBy(150, 150);
+        Endpix.setPixmap( QPixmap("D:\\tower\\vectory2.png"));
+        Endpix.moveBy(170, -20);
         GameScene.addItem(&Endpix);
     }
     else if (HP <= 0)
     {
+        GameOver();
+
+        Endpix.setPixmap(QPixmap("D:\\tower\\lose.png"));
+        Endpix.moveBy(370, 120);
+        GameScene.addItem(&Endpix);
     }
     
 }
@@ -868,7 +864,13 @@ GameControl::~GameControl()
 {
     for (auto i : MonList1)
         delete i;
-    for (auto i : TowList1)
+    for (auto i : MySideList)
         delete i;
+    for (auto i : MySideDList)
+        delete i;
+    delete MainTimer;//主定时器，控制游戏主体逻辑
+    delete MonsterGenTimer1;
+    delete MonsterGenTimer2;
+    delete MonsterMoveTimer1;
 }
 

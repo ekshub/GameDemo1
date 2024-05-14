@@ -1,24 +1,25 @@
 #include "Tower5.h"
 #include"GameControl.h"
 QList<Card*> Tower5::cardList;
-Tower5::Tower5() :MySide("D:\\tower\\toa3.gif", 200)
+Tower5::Tower5() :MySide(GameDefine::TowBul5, GameDefine::TowHarm5)
 {
+	MaxHP = GameDefine::TowHP5;
+	MaxMP = GameDefine::TowMP5;
 	mObjectType = GameObject::OT_Tower5;
-	MyMov = new RoleAni("D:\\tower\\to5.gif", this);
-	AttMov = new QMovie("D:\\tower\\to5at.gif");
+	MyMov = new RoleAni(GameDefine::TowMov5, this);
+	AttMov = new QMovie(GameDefine::TowAttMov5);
 	AttMov->setSpeed(150);
-	AceMov = new QMovie("D:\\tower\\to5ace.gif");
-	DeathMov = new QMovie("D:\\tower\\to5de.gif");
-	DeathMov2= new QMovie("D:\\tower\\to5de2.gif");
-	MoveSt = new QMovie("D:\\tower\\to5mst.gif");
-	MoveEn = new QMovie("D:\\tower\\to5men.gif");
-	MoveD = new QMovie("D:\\tower\\to5md.gif");
-	AttMov2 = new QMovie("D:\\tower\\to5at2.gif");
+	AceMov = new QMovie(GameDefine::TowAceMov5);
+	DeathMov = new QMovie(GameDefine::Mon5Death);
+	DeathMov2= new QMovie(GameDefine::Mon5Death2);
+	MoveSt = new QMovie(GameDefine::Mon5MoveSt);
+	MoveEn = new QMovie(GameDefine::Mon5MoveEn);
+	MoveD = new QMovie(GameDefine::Mon5MoveD);
+	AttMov2 = new QMovie(GameDefine::Mon5AttMov2);
 	this->setPixmap(GameDefine::TowerUrl5_1);
-	BulletSendTimer = new QTimer;
 	MoveTimer = new QTimer;
-	Harm = 1000;
-	InitHarm = 200;
+	Harm = GameDefine::TowHarm5;
+
 	state = 0;
 	QObject::connect(AttMov, &QMovie::finished, [=]() {if (AttState)
 		return;
@@ -167,6 +168,12 @@ Tower5::Tower5() :MySide("D:\\tower\\toa3.gif", 200)
 }
 Tower5::~Tower5()
 {
+	delete DeathMov2;
+	delete MoveSt;
+	delete MoveEn;
+	delete MoveD;
+	delete MoveTimer;
+	delete AttMov2;
 }
 void Tower5::init(QPoint _Pos, MapItem* _Map)
 {

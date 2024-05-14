@@ -1,17 +1,19 @@
 #include "Tower8.h"
 #include"GameControl.h"
 QList<Card*> Tower8::cardList;
-Tower8::Tower8() :MySide("D:\\tower\\to8ac.gif", 200)
+Tower8::Tower8() :MySide(GameDefine::TowBul8, GameDefine::TowHarm8)
 {
+	MaxHP = GameDefine::TowHP8;
+	MaxMP = GameDefine::TowMP8;
 	mObjectType = GameObject::OT_Tower8;
-	MyMov = new RoleAni("D:\\tower\\to8.gif", this);
-	AttMov = new QMovie("D:\\tower\\to8at.gif");
-	AttMov2=new QMovie("D:\\tower\\to8at2.gif");
+	MyMov = new RoleAni(GameDefine::TowMov8, this);
+	AttMov = new QMovie(GameDefine::TowAttMov8);
+	AceMov = new QMovie(GameDefine::TowAceMov8);
+	AttMov2=new QMovie(GameDefine::TowAtt2Mov8);
 	BulletSendTimer = new QTimer;
 	this->setPixmap(GameDefine::TowerUrl8_1);
-	Harm = 1000;
-	Harm2 = 2000;
-	InitHarm = 200;
+	Harm = GameDefine::TowHarm5;
+	Harm2 = GameDefine::TowHarm5*2;
 	state = true;
 	QObject::connect(AttackTimer, &QTimer::timeout, [=]()
 		{if (AttState)
@@ -78,6 +80,7 @@ Tower8::Tower8() :MySide("D:\\tower\\to8ac.gif", 200)
 }
 Tower8::~Tower8()
 {
+	delete AttMov2;
 }
 void Tower8::init(QPoint _Pos,  MapItem* _Map )
 {

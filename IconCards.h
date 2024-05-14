@@ -1,7 +1,8 @@
 #pragma once
 #include"GameDefine.h"
 #include"Card.h"
-#include"GameDemo1.h"
+#include"Synodic_Month.h"
+#pragma warning(disable : 4828)
 class IconCards :public QObject
 {
 	//µ¥Àý
@@ -16,7 +17,7 @@ public:
 	static IconCards* Instance()
 	{
 		if (instance == nullptr)
-			return instance = new IconCards(GameDemo1::MainWindow);
+			return instance = new IconCards(Synodic_Month::MainWindow);
 		return instance;
 	}
 	static QString* IconName;

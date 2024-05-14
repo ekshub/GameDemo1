@@ -1,16 +1,15 @@
 #include "Tower6.h"
 #include"GameControl.h"
 QList<Card*> Tower6::cardList;
-Tower6::Tower6() :MySide("D:\\tower\\to6ac2.gif", 200)
+Tower6::Tower6() :MySide(GameDefine::TowBul6, GameDefine::TowHarm6)
 {
-	Harm = 400;
-	InitHarm = 200;
+	Harm = GameDefine::TowHarm6;
+	MaxHP = GameDefine::TowHP6;
+	MaxMP = GameDefine::TowMP6;
 	mObjectType = GameObject::OT_Tower6;
-	MyMov = new RoleAni("D:\\tower\\to6.gif", this);
-	AttMov = new QMovie("D:\\tower\\to6at.gif");
-	AceMov = new QMovie("D:\\tower\\to6ac.gif");
-	BulletSendTimer = new QTimer;
-	
+	MyMov = new RoleAni(GameDefine::TowMov6, this);
+	AttMov = new QMovie(GameDefine::TowAttMov6);
+	AceMov = new QMovie(GameDefine::TowAceMov6);
 	
 	QObject::connect(AttackTimer, &QTimer::timeout, [=]()
 		{if (AttState)

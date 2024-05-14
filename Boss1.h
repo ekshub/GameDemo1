@@ -1,5 +1,6 @@
 #pragma once
 #include "EnemySide.h"
+#pragma warning(disable : 4828)
 class Boss1 :
     public EnemySide
 {

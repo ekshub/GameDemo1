@@ -3,6 +3,7 @@
 #include"RoleAni.h"
 #include<QGraphicsPixmapItem>
 #include "GameDefine.h"
+#pragma warning(disable : 4828)
 class GameObject:public QGraphicsPixmapItem
 {
 public:
@@ -10,6 +11,7 @@ public:
 	{
 		OT_Monster1,
 		OT_Monster2,
+		OT_Monster3,
 		OT_Tower1,
 		OT_Tower2,
 		OT_Tower3,
@@ -19,7 +21,6 @@ public:
 		OT_Tower7,
 		OT_Tower8,
 		OT_Tower9,
-		OT_Tower1_Attack
 	};
 public:
 	explicit GameObject(QObject*parent=nullptr);
@@ -31,7 +32,8 @@ public:
 	long int HP;//对象现有血量
 	long int MP;//现有蓝量
 	long int MaxMP;//总蓝量
-
+	QMovie* AttMov;//攻击动画
+	QTimer* AttackTimer;//控制播放攻击动画的定时器
 protected:
 	int mObjectType;//对象种类
 	QPoint Pos;//对象位置

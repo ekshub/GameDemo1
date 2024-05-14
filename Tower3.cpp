@@ -1,16 +1,16 @@
 #include "Tower3.h"
 #include"GameControl.h"
 QList<Card*> Tower3::cardList;
-Tower3::Tower3() :MySide("D:\\tower\\to3ac2.gif", 200)
+Tower3::Tower3() :MySide(GameDefine::TowBul3, GameDefine::TowHarm3)
 {
+	Harm = GameDefine::TowHarm3;
+	MaxHP = GameDefine::TowHP3;
+	MaxMP = GameDefine::TowMP3;
 	mObjectType = GameObject::OT_Tower3;
-	MyMov = new RoleAni("D:\\tower\\to3.gif", this);
-	AttMov = new QMovie("D:\\tower\\to3at.gif");
-	AceMov = new QMovie("D:\\tower\\to3ac.gif");
+	MyMov = new RoleAni(GameDefine::TowMov3, this);
+	AttMov = new QMovie(GameDefine::TowAttMov3);
+	AceMov = new QMovie(GameDefine::TowAceMov3);
 	this->setPixmap(GameDefine::TowerUrl3_1);
-	BulletSendTimer = new QTimer;
-	Harm = 1000;
-	InitHarm = 200;
 	for (auto i : BulletList)
 	{
 		
@@ -57,7 +57,7 @@ Tower3::Tower3() :MySide("D:\\tower\\to3ac2.gif", 200)
 			return;
 		}
 		MyMov->ChangeMov(AttMov);
-		if (level == 1)
+		if (level == 3)
 			MP += 2000;
 		});
 	QObject::connect(AceStartTimer, &QTimer::timeout, [=]() {

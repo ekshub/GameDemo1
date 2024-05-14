@@ -1,6 +1,7 @@
 #pragma once
 #include "GameDefine.h"
 #include "MapItem.h"
+#pragma warning(disable : 4828)
 enum MapElent
 {
     Road,

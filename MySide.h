@@ -3,6 +3,7 @@
 #include"Card.h"
 #include"Bullet.h"
 #include"MapItem.h"
+#pragma warning(disable : 4828)
 class MySide :
     public GameObject
 {
@@ -20,8 +21,6 @@ public:
     virtual void StartAtt();//对象开始攻击
     Bullet* getBullet();//从子弹链表中获取子弹
     int Harm;//伤害
-    int InitHarm;//初始伤害
-    QTimer* AttackTimer;//控制播放攻击动画的定时器
     QTimer* BulletSendTimer;//攻击释放的定时器
     QTimer* AceStartTimer;//控制释放技能的定时器
     QTimer* AceEndTimer;//控制技能结束的定时器
@@ -29,7 +28,6 @@ public:
     QString BulletUrl;//子弹图像的路径
     int level;//对象的等级
     RoleAni* MyMov;//对象的动画播放器
-    QMovie* AttMov;//攻击动画
     QMovie* AceMov;//技能动画
     QMovie* DeathMov;//死亡动画
     bool isalive;//是否存活

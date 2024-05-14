@@ -1,6 +1,6 @@
 #pragma once
 #include "GameDefine.h"
-#include "GameDemo1.h"
+#include "Synodic_Month.h"
 #include "GameObjectPool.h"
 #include "GameMap.h"
 #include "MyScene.h"
@@ -10,6 +10,7 @@
 #include "IconBox.h"
 #include"Boss1.h"
 #include"Displayer.h"
+#pragma warning(disable : 4828)
 class GameControl:public QObject
 {
 	//单例
@@ -62,7 +63,7 @@ public:
 	//死亡对象回收
 	void DeadRecover();
 	//敌方回收
-	void MonsterRecover(Monster1* i);
+	void MonsterRecover(EnemySide* i);
 	//子弹回收
 	void BulletRecover(Bullet*Bul, int _obj);
 	//卡牌回收
@@ -86,7 +87,7 @@ public:
 	void keyPressEvent(QKeyEvent* event);
 
 	GameMap* mMap;//游戏地图
-	QList<Monster1*>MonList1;//存储敌方对象的链表
+	QList<EnemySide*>MonList1;//存储敌方对象的链表
 	MyScene GameScene;//游戏主场景
 	QList<int> AllCardList;//牌组，用于记录每张牌剩余的数量
 	QList<MySide*> MySideList;//我方存活对象链表

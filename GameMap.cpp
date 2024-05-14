@@ -49,7 +49,10 @@ bool GameMap::InitByFile(QString filename)//根据文件初始化地图数组
         
         for (int j = 0; j < 15; j++)
         {
+            if(i%2==0)
             mpArr[i][j] = 1;
+            else
+                mpArr[i][j] = 0;
             
         }
     }
@@ -73,13 +76,13 @@ void GameMap::DrawMap()
             QString Imgurl;
             switch (mpArr[i][j])
             {
-            case Road:Imgurl = "D:\\tower\\MapItem2.png";break;
-            case Wall:Imgurl = "D:\\Qt_code\\sbs_-_base_materials_pack_128x128\\Stone\\mapitem.png"; break;
+            case Road:Imgurl = "D:\\tower\\MapItem.png";break;
+            case Wall:Imgurl = "D:\\tower\\MapItem2.png"; break;
             }
 
             QPixmap img2(Imgurl);
             mGameMap[i][j].setPixmap(img2);
-            mGameMap[i][j].setPos(j * (img2.width())+50, 150+i * img2.height());
+            mGameMap[i][j].setPos(j * (img2.width()), 150+i * img2.height());
             
         }
     }

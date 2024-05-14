@@ -1,8 +1,9 @@
 #pragma once
-#include"GameDemo1.h"
+#include"Synodic_Month.h"
 #include "GameDefine.h"
 #include "Monster1.h"
 #include "Monster2.h"
+#include "Monster3.h"
 #include "Tower1.h"
 #include "Tower2.h"
 #include "Tower3.h"
@@ -12,6 +13,7 @@
 #include "Tower7.h"
 #include "Tower8.h"
 #include "Tower9.h"
+
 class GameObjectPool:public QObject
 {
 	//单例
@@ -21,7 +23,7 @@ public:
 	static GameObjectPool* Instance()
 	{
 		if (instance == nullptr)
-			return instance = new GameObjectPool(GameDemo1::MainWindow);
+			return instance = new GameObjectPool(Synodic_Month::MainWindow);
 		return instance;
 	}
 	//对象工厂
@@ -43,6 +45,7 @@ protected:
 	//存储预生产对象的链表
 	QList<Monster1*>MonPool;
 	QList<Monster2*>MonPool2;
+	QList<Monster3*>MonPool3;
 	QList<Tower1*>TowerPool1;
 	QList<Tower2*>TowerPool2;
 	QList<Tower3*>TowerPool3;

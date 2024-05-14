@@ -21,7 +21,6 @@ public:
         return card;
     }
     int count;
-    QMovie* AceMov;
     void init(QPoint _Pos, MapItem* _Map) override;
     void BulletMove() override;
     void MyAce(MyScene* TargetScene=nullptr) override;

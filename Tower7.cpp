@@ -1,16 +1,16 @@
 #include "Tower7.h"
 #include"GameControl.h"
 QList<Card*> Tower7::cardList;
-Tower7::Tower7() :MySide("D:\\tower\\too7at.gif", 1)
+Tower7::Tower7() :MySide(GameDefine::TowBul7, GameDefine::TowHarm7)
 {
+	MaxHP = GameDefine::TowHP7;
+	MaxMP = GameDefine::TowMP7;
+	Harm = GameDefine::TowHarm7;
 	mObjectType = GameObject::OT_Tower7;
-	MyMov = new RoleAni("D:\\tower\\to7.gif", this);
-	BulletSendTimer = new QTimer;
-	AttMov = new QMovie("D:\\tower\\to7at.gif");
-	AceMov = new QMovie("D:\\tower\\to7ac.gif");
+	MyMov = new RoleAni(GameDefine::TowMov7, this);
+	AttMov = new QMovie(GameDefine::TowAttMov7);
+	AceMov = new QMovie(GameDefine::TowAceMov7);
 	this->setPixmap(GameDefine::TowerUrl7_1);
-	Harm = 1;
-	InitHarm = 1;
 	int acount;
 	
 	for (auto i : BulletList)
@@ -99,5 +99,6 @@ void Tower7::Reset()
 	MySide::Reset();
 	if (MyMov->Pos.y() - MyMov->pos().y() > 100)
 		MyMov->moveBy(39, 58);
+	
 }
 

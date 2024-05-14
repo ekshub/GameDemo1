@@ -1,17 +1,17 @@
 #include "Tower9.h"
 #include"GameControl.h"
 QList<Card*> Tower9::cardList;
-Tower9::Tower9() :MySide("D:\\tower\\too9ac.gif", 1000)
+Tower9::Tower9() :MySide(GameDefine::TowBul9, GameDefine::TowHarm9)
 {
+	MaxHP = GameDefine::TowHP9;
+	MaxMP = GameDefine::TowMP9;
 	mObjectType = GameObject::OT_Tower9;
-	MyMov = new RoleAni("D:\\tower\\to9.gif", this);
-	AttMov = new QMovie("D:\\tower\\to9at.gif");
-	AceMov = new QMovie("D:\\tower\\to9ac.gif");
+	MyMov = new RoleAni(GameDefine::TowMov9, this);
+	AttMov = new QMovie(GameDefine::TowAttMov9);
+	AceMov = new QMovie(GameDefine::TowAceMov9);
 	AceBulletTimer = new QTimer;
-	BulletSendTimer = new QTimer;
 	this->setPixmap(GameDefine::TowerUrl9_1);
-	Harm = 1000;
-	InitHarm = 200;
+	Harm = GameDefine::TowHarm9;
 	QObject::connect(AttMov, &QMovie::finished, [=]() {if (AttState)
 		return;
 		AttMov->stop();
@@ -43,7 +43,7 @@ Tower9::Tower9() :MySide("D:\\tower\\too9ac.gif", 1000)
 		MyMov->moveBy(22, 0);
 		BulletSendTimer->start(2400);
 		AttackTimer->stop();
-		if (level == 3)
+		if (level == 1)
 			MP += 500;
 		});
 	QObject::connect(AceStartTimer, &QTimer::timeout, [=]() {if (AttState)
@@ -65,25 +65,26 @@ Tower9::Tower9() :MySide("D:\\tower\\too9ac.gif", 1000)
 	QObject::connect(AceAttTimer, &QTimer::timeout, [=] {if (AttState)
 		return;
 
-		for (auto Bul : AceBulletList)
+		for (auto Bul : AceBulletList)//遍历处于攻击状态的子弹
 		{
-			if (!GameControl::Instance()->MonList1.isEmpty()) {
-				if (Bul->count == -1)
-					Bul->count = rand() % GameControl::Instance()->MonList1.size();
-				if (Bul->count < GameControl::Instance()->MonList1.size())
+			if (!GameControl::Instance()->MonList1.isEmpty()) {//如果有敌人，开始追踪
+				if (Bul->target == nullptr)//target为一个GameObject指针，为nullptr表示尚未锁定敌人
+					Bul->target = GameControl::Instance()->MonList1[rand() % GameControl::Instance()->MonList1.size()];//随机锁定一名敌人
+				if (((EnemySide*)Bul->target)->isAlive)//如果攻击目标存活
 				{
-					EnemySide* mon = GameControl::Instance()->MonList1[Bul->count];
+					EnemySide* mon = dynamic_cast<EnemySide*> (Bul->target);//将基类指针转化为其派生类EnemySide指针，使用dynamic_cast确保安全性
 					if (abs((Bul->pos().y() - mon->MyMov->pos().y())) >= abs(Bul->pos().x() - mon->MyMov->pos().x()))
+						//如果子弹与目标横坐标差距较大，使用横坐标之差作为分母，反之使用纵坐标，防止分母过小
 					{
 						if (Bul->pos().y() - mon->MyMov->pos().y() > 10)
-							Bul->Temp = -QPoint(((2 * Bul->pos().x() - 2 * mon->MyMov->pos().x())) / (Bul->pos().y() - mon->MyMov->pos().y()), 2);
-						else if (Bul->pos().y() - mon->MyMov->pos().y() < 10)
+							Bul->Temp = QPoint(((2 * Bul->pos().x() - 2 * mon->MyMov->pos().x())) / (Bul->pos().y() - mon->MyMov->pos().y()), -2);
+						else if (Bul->pos().y() - mon->MyMov->pos().y() < -10)
 							Bul->Temp = +QPoint(((2 * Bul->pos().x() - 2 * mon->MyMov->pos().x())) / (Bul->pos().y() - mon->MyMov->pos().y()), 2);
 					}
 					else {
 						if (Bul->pos().x() - mon->MyMov->pos().x() > 10)
-							Bul->Temp = -QPoint(2, (2 * Bul->pos().y() - 2 * mon->MyMov->pos().y()) / (Bul->pos().x() - mon->MyMov->pos().x()));
-						else if (Bul->pos().x() - mon->MyMov->pos().x() < 10)
+							Bul->Temp = QPoint(-2, (2 * Bul->pos().y() - 2 * mon->MyMov->pos().y()) / (Bul->pos().x() - mon->MyMov->pos().x()));
+						else if (Bul->pos().x() - mon->MyMov->pos().x() < -10)
 							Bul->Temp = QPoint(2, ((2 * Bul->pos().y() - 2 * mon->MyMov->pos().y())) / (Bul->pos().x() - mon->MyMov->pos().x()));
 					}
 					Bul->moveBy(Bul->Temp.x(),Bul->Temp.y()) ;
@@ -91,13 +92,13 @@ Tower9::Tower9() :MySide("D:\\tower\\too9ac.gif", 1000)
 					if (Bul->collidesWithItem(mon->MyMov))
 					{
 						Bul->count2++;
-						Bul->count = rand() % GameControl::Instance()->MonList1.size();
+						Bul->target = GameControl::Instance() ->MonList1[rand() % GameControl::Instance()->MonList1.size()];
 						(mon)->HP -= Bul->Harm / 2;
 						(mon)->HPBar->setValue((mon)->HP * 100 / ((Monster1*)mon)->MaxHP);
 					}
 				}
 				else
-					Bul->count = -1;
+					Bul->target = nullptr;
 			}
 			else
 			{
@@ -152,6 +153,7 @@ Tower9::Tower9() :MySide("D:\\tower\\too9ac.gif", 1000)
 }
 Tower9::~Tower9()
 {
+	delete AceBulletTimer;
 }
 void Tower9::init(QPoint _Pos, MapItem* _Map)
 {

@@ -2,16 +2,16 @@
 #include"GameControl.h"
 
 QList<Card*> Tower1::cardList ;
-Tower1::Tower1() :MySide("D:\\tower\\to1att.gif", 200)
+Tower1::Tower1() :MySide(GameDefine::TowBul1, GameDefine::TowHarm1)
 {
+	MaxHP = GameDefine::TowHP1;
+	MaxMP = GameDefine::TowMP1;
 	mObjectType = GameObject::OT_Tower1;
-	MyMov = new RoleAni("D:\\tower\\to1.gif");
-	AttMov = new QMovie("D:\\tower\\to1at.gif");
-	AceMov = new QMovie("D:\\tower\\to1ace.gif");
-	BulletSendTimer = new QTimer;
+	MyMov = new RoleAni(GameDefine::TowMov1);
+	AttMov = new QMovie(GameDefine::TowAttMov1);
+	AceMov = new QMovie(GameDefine::TowAceMov1);
 	this->setPixmap(GameDefine::TowerUrl1_1);
-	InitHarm = 200;
-	Harm = 200;
+	Harm = GameDefine::TowHarm1;
 	QObject::connect(AttMov, &QMovie::finished, [=]() {
 		if (AttState)
 			return;
@@ -71,14 +71,6 @@ void Tower1::BulletMove()
 
 Tower1::~Tower1()
 {
-	
-
-	for (auto i : TracingBulletList)
-	{
-		TracingBulletList.removeOne(i);
-		delete i;
-	}
-	
 }
 
 void Tower1::MyAce(MyScene* TargetScene)
